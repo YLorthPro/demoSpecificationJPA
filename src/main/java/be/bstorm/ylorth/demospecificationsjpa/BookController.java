@@ -2,10 +2,7 @@ package be.bstorm.ylorth.demospecificationsjpa;
 
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,8 @@ public class BookController {
      */
     @GetMapping("/one")
     public BookEntity getOneByTitle(@RequestParam String title){
+        
+        
 
         Specification<BookEntity> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("title"),title));
         
@@ -40,7 +39,7 @@ public class BookController {
      * @param form The BookSearchForm object containing the search criteria.
      * @return A list of book entities that satisfy the search criteria.
      */
-    @GetMapping("/allWithSpec")
+    @PostMapping("/allWithSpec")
     public List<BookEntity> getAllBySpec(@RequestBody BookSearchForm form){
         Specification<BookEntity> spec = createSpecification(form);
         return bookEntityRepository.findAll(spec);
