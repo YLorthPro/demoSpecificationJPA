@@ -47,6 +47,12 @@ public class BookController {
         return bookEntityRepository.findAll(spec);
     }
 
+    /**
+     * Creates a Specification object based on the search criteria specified in the given BookSearchForm.
+     *
+     * @param form The BookSearchForm object containing the search criteria.
+     * @return The Specification object representing the search criteria.
+     */
     private Specification<BookEntity> createSpecification(BookSearchForm form) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
