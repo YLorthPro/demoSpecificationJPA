@@ -20,6 +20,12 @@ public class BookController {
         this.bookEntityRepository = bookEntityRepository;
     }
 
+    /**
+     * Retrieves a book entity based on its title.
+     *
+     * @param title The title of the book entity.
+     * @return The book entity with the specified title.
+     */
     @GetMapping("/one")
     public BookEntity getOneByTitle(@RequestParam String title){
 
@@ -28,6 +34,13 @@ public class BookController {
         return bookEntityRepository.findOne(spec).get();
     }
     
+    /**
+     * Retrieves a list of book entities based on the search criteria specified in the
+     * given BookSearchForm.
+     *
+     * @param form The BookSearchForm object containing the search criteria.
+     * @return A list of book entities that satisfy the search criteria.
+     */
     @GetMapping("/allWithSpec")
     public List<BookEntity> getAllBySpec(@RequestBody BookSearchForm form){
         
@@ -47,8 +60,6 @@ public class BookController {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
             
         });
-        
-        
         
         return bookEntityRepository.findAll(spec);
     }
