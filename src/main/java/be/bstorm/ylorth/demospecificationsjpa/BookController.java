@@ -43,25 +43,25 @@ public class BookController {
      */
     @GetMapping("/allWithSpec")
     public List<BookEntity> getAllBySpec(@RequestBody BookSearchForm form){
-        
-        Specification<BookEntity> spec = ((root, query, criteriaBuilder) -> {
-            
-            List<Predicate> predicates = new ArrayList<>();
-            
-            if(form.getTitle()!=null)
-                predicates.add(criteriaBuilder.equal(root.get("title"),form.getTitle()));
-            
-            if(form.getAuthor()!= null)
-                predicates.add(criteriaBuilder.equal(root.get("author"), form.getAuthor()));
-            
-            if(form.getPublicationYear()!=0)
-                predicates.add(criteriaBuilder.equal(root.get("publicationYear"), form.getPublicationYear()));
-            
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-            
-        });
-        
+        Specification<BookEntity> spec = createSpecification(form);
         return bookEntityRepository.findAll(spec);
+    }
+
+    private Specification<BookEntity> createSpecification(BookSearchForm form) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (form.getTitle() != null)
+                predicates.add(criteriaBuilder.equal(root.get("title"),form.getTitle()));
+
+            if (form.getAuthor() != null)
+                predicates.add(criteriaBuilder.equal(root.get("author"), form.getAuthor()));
+
+            if (form.getPublicationYear() != 0)
+                predicates.add(criteriaBuilder.equal(root.get("publicationYear"), form.getPublicationYear()));
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
     
 }
